@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Definitivo: HTML, CSS & JS</title>
+    <!-- 5️⃣ SEO e acessibilidade -->
+    <meta name="description" content="Guia definitivo sobre HTML, CSS e JavaScript — entenda como tudo se conecta no desenvolvimento web moderno.">
+    <meta name="author" content="Guia Web">
+    <meta name="theme-color" content="#1e40af">
+    
+    <!-- Carregando o Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 3️⃣ Trocar o import do lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* Fonte Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilo para o scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Estilos para listas (agora dentro do modal) */
+        #modal-content-area ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        #modal-content-area li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 1️⃣ Animação suave ao abrir seções (agora no modal) */
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.6s ease-out;
+        }
+        
+        /* Animação para o fade-in do overlay do modal (Sugestão da Crítica 2) */
+        @keyframes fadeOverlayIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        #modal-container:not(.hidden) {
+            animation: fadeOverlayIn 0.4s ease-out;
+        }
+        
+        /* Estilo para o scrollbar do modal */
+        #modal-content-area::-webkit-scrollbar {
+            width: 8px;
+        }
+        #modal-content-area::-webkit-scrollbar-thumb {
+            background-color: #a0aec0; /* dark:bg-gray-600 */
+            border-radius: 4px;
+        }
+        #modal-content-area::-webkit-scrollbar-track {
+            background-color: #edf2f7; /* dark:bg-gray-800 */
+        }
+        
+        .dark #modal-content-area::-webkit-scrollbar-thumb {
+             background-color: #718096;
+        }
+         .dark #modal-content-area::-webkit-scrollbar-track {
+             background-color: #2d3748;
+        }
+    </style>
+    <script>
+        // Configuração do Tailwind para modo escuro
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+    <!-- 4️⃣ Cabeçalho com blur e Toggle de Dark Mode -->
+    <header class="backdrop-blur-md bg-white/70 dark:bg-gray-800/70 shadow-md sticky top-0 z-30 transition">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <h1 class="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">Guia Web Definitivo</h1>
+            <button id="theme-toggle" class="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                <!-- 3️⃣ Ícones trocados para <i> tags para o lucide vanilla -->
+                <i id="theme-icon-sun" data-lucide="sun" class="h-6 w-6 hidden"></i>
+                <i id="theme-icon-moon" data-lucide="moon" class="h-6 w-6 hidden"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Conteúdo Principal com o Grid de Cards -->
+    <main class="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <div class="text-center mb-12 animate-fadeIn">
+            <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-3">HTML, CSS & JavaScript</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300">O guia completo para se tornar um expert no trio que move a web.</p>
+        </div>
+
+        <!-- Grid de Cards Interativos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
+            
+            <!-- Card 1: Visão Geral -->
+            <button data-target-id="content-visao-geral" class="card-button text-left bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <i data-lucide="globe-2" class="w-8 h-8 text-blue-600 dark:text-blue-400 mr-3"></i>
+                    <h3 class="text-xl font-bold text-blue-600 dark:text-blue-400">Visão Geral</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300">O Trio que Constrói a Web. Entenda o papel de cada tecnologia.</p>
+            </button>
+
+            <!-- Card 2: Mapa Mental -->
+            <button data-target-id="content-fluxo" class="card-button text-left bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <i data-lucide="map" class="w-8 h-8 text-emerald-600 dark:text-emerald-400 mr-3"></i>
+                    <h3 class="text-xl font-bold text-emerald-600 dark:text-emerald-400">Mapa Mental</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300">O ambiente e o fluxo de desenvolvimento. Como tudo se conecta.</p>
+            </button>
+
+            <!-- Card 3: Cardápio de Ferramentas -->
+            <button data-target-id="content-cardapio" class="card-button text-left bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <i data-lucide="book-open" class="w-8 h-8 text-purple-600 dark:text-purple-400 mr-3"></i>
+                    <h3 class="text-xl font-bold text-purple-600 dark:text-purple-400">Cardápio de Ferramentas</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300">"Quero fazer X, uso Y". O guia completo de tecnologias.</p>
+            </button>
+
+            <!-- Card 4: Comparativo -->
+            <button data-target-id="content-comparativo" class="card-button text-left bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <i data-lucide="columns" class="w-8 h-8 text-teal-600 dark:text-teal-400 mr-3"></i>
+                    <h3 class="text-xl font-bold text-teal-600 dark:text-teal-400">Comparativo</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300">Até onde você pode ir com cada tecnologia da trindade base.</p>
+            </button>
+
+            <!-- Card 5: Resumo -->
+            <button data-target-id="content-resumo" class="card-button text-left bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <i data-lucide="rocket" class="w-8 h-8 text-blue-500 dark:text-blue-400 mr-3"></i>
+                    <h3 class="text-xl font-bold text-blue-500 dark:text-blue-400">Resumo</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300">A analogia final para nunca mais esquecer o papel de cada um.</p>
+            </button>
+
+            <!-- Card 6: Caminho de Aprendizado -->
+            <button data-target-id="content-caminho" class="card-button text-left bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <i data-lucide="milestone" class="w-8 h-8 text-orange-600 dark:text-orange-400 mr-3"></i>
+                    <h3 class="text-xl font-bold text-orange-600 dark:text-orange-400">Caminho de Aprendizado</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300">Um roadmap sugerido para evoluir de forma natural e sólida.</p>
+            </button>
+
+            <!-- Card 7: Links Úteis -->
+            <button data-target-id="content-links" class="card-button text-left bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <i data-lucide="link" class="w-8 h-8 text-sky-600 dark:text-sky-400 mr-3"></i>
+                    <h3 class="text-xl font-bold text-sky-600 dark:text-sky-400">Links Úteis</h3>
+                </div>
+                <p class="text-gray-700 dark:text-gray-300">Referências e documentações oficiais para continuar seus estudos.</p>
+            </button>
+
+        </div>
+    </main>
+
+    <!--
+      MODAL: Estrutura da Janela Flutuante
+      Fica escondido ('hidden') por padrão e é exibido via JS.
+    -->
+    <div id="modal-container" class="hidden fixed inset-0 bg-gray-900/80 backdrop-blur-sm z-40 flex items-center justify-center p-4">
+        
+        <!-- O Card do Modal -->
+        <div id="modal-content" class="relative bg-white dark:bg-gray-800 w-full max-w-4xl max-h-[90vh] rounded-lg shadow-lg flex flex-col animate-fadeIn">
+            
+            <!-- Header do Modal (Título e Botão de Fechar) -->
+            <div class="flex justify-between items-center p-4 border-b dark:border-gray-700">
+                <h3 id="modal-title" class="text-2xl font-bold text-blue-600 dark:text-blue-400"></h3>
+                <button id="modal-close-button" class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Área de Conteúdo Rolável do Modal -->
+            <div id="modal-content-area" class="p-6 overflow-y-auto">
+                <!-- O conteúdo da seção será injetado aqui pelo JavaScript -->
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--
+      CONTEÚDO ESCONDIDO
+      Estes são os 'data-sources' para os modais.
+      Eles estão 'hidden', então não aparecem na página,
+      mas o JS pode ler o HTML deles.
+    -->
+    <div id="hidden-content" class="hidden">
+        
+        <!-- Conteúdo: Visão Geral -->
+        <div id="content-visao-geral">
+            <h3 class="text-2xl font-bold mb-4 text-blue-600 dark:text-blue-400">🌐 Visão Geral: O Trio que Constrói a Web</h3>
+            <p class="mb-4 text-gray-700 dark:text-gray-300">
+                HTML, CSS e JavaScript formam a base de tudo que existe na web. Eles são uma trindade inseparável.
+            </p>
+            <div class="overflow-x-auto rounded-lg border dark:border-gray-700 my-4">
+                <table class="w-full min-w-max text-left">
+                    <thead class="border-b dark:border-gray-600">
+                        <tr>
+                            <th class="p-3 font-semibold">Tecnologia</th>
+                            <th class="p-3 font-semibold">O que faz</th>
+                            <th class="p-3 font-semibold">Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                            <td class="p-3 font-medium">HTML</td>
+                            <td class="p-3">Estrutura o conteúdo (texto, imagens, botões)</td>
+                            <td class="p-3">Linguagem de Marcação</td>
+                        </tr>
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                            <td class="p-3 font-medium">CSS</td>
+                            <td class="p-3">Define o estilo visual (cores, tamanhos, fontes)</td>
+                            <td class="p-3">Linguagem de Estilo</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                            <td class="p-3 font-medium">JavaScript (JS)</td>
+                            <td class="p-3">Dá vida e lógica à página (interatividade, IA, etc.)</td>
+                            <td class="p-3">Linguagem de Programação</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Conteúdo: Fluxo e Mapa Mental -->
+        <div id="content-fluxo">
+            <h3 class="text-2xl font-bold mb-4 text-emerald-600 dark:text-emerald-400">🗺️ O Mapa Mental: Ambiente e Fluxo</h3>
+            <div class="card-content text-gray-700 dark:text-gray-300 space-y-8">
+                <!-- Bloco 1 -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-3">🧩 1. O “ambiente” e o “fluxo”</h4>
+                    <p class="mb-3">O que listamos antes são ferramentas individuais. Isto é o que conecta elas no dia a dia.</p>
+                    <div class="overflow-x-auto rounded-lg border dark:border-gray-700 my-4">
+                        <table class="w-full min-w-max text-left">
+                            <thead class="border-b dark:border-gray-600"><tr class="font-semibold"><th class="p-3">Camada</th><th class="p-3">O que faz</th><th class="p-3">Exemplos</th></tr></thead>
+                            <tbody>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3 font-medium">🌐 Frontend (navegador)</td><td class="p-3">O que o usuário vê</td><td class="p-3">HTML, CSS, JS, React, Three.js, Tailwind</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3 font-medium">⚙️ Backend (servidor)</td><td class="p-3">O que processa dados e regras</td><td class="p-3">Node.js (Express), Python (Flask/Django), Go, etc</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3 font-medium">💾 Banco de dados</td><td class="p-3">Onde os dados ficam</td><td class="p-3">MongoDB, PostgreSQL, Firebase, MySQL</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3 font-medium">🔗 API (ponte)</td><td class="p-3">Comunicação entre front e back</td><td class="p-3">REST, GraphQL, WebSocket</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3 font-medium">🧱 Build / Dev Tools</td><td class="p-3">Organiza o código, otimiza e empacota</td><td class="p-3">Webpack, Vite, Babel, ESLint, Prettier</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3 font-medium">🚀 Deploy / Infra</td><td class="p-3">Onde o site roda</td><td class="p-3">Vercel, Netlify, AWS, Render, Cloudflare</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3 font-medium">🧠 IA / Automação</td><td class="p-3">Inteligência e geração de conteúdo</td><td class="p-3">TensorFlow.js, OpenAI API, HuggingFace, LangChain.js</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3 font-medium">🧰 Controle e versionamento</td><td class="p-3">Trabalhar em equipe e versionar código</td><td class="p-3">Git, GitHub, GitLab, Bitbucket</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Bloco 2 -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-3">⚡ 2. Como tudo se encaixa (o “mapa mental”)</h4>
+                    <p class="mb-3">Imagina o desenvolvimento web como um castelo de 7 andares, cada um sustentando o de cima:</p>
+                    <div class="space-y-2 pl-4 border-l-4 border-gray-300 dark:border-gray-600">
+                        <div class="font-medium">🧠 7. Inteligência / IA (TensorFlow.js, OpenAI API)</div>
+                        <!-- Alteração Crítica 3 -->
+                        <div class="font-medium">🔌 6. APIs e Comunicação (REST - rotas HTTP, GraphQL - consultas)</div>
+                        <div class="font-medium">💾 5. Banco de Dados (Firebase, MongoDB, PostgreSQL)</div>
+                        <div class="font-medium">⚙️ 4. Backend (Node.js, Express, Python Flask)</div>
+                        <div class="font-medium">🎨 3. Frontend Avançado (React, Vue, Svelte)</div>
+                        <div class="font-medium">💅 2. Estilo e UI (CSS, Tailwind, Bootstrap)</div>
+                        <!-- Alteração Crítica 3 -->
+                        <div class="font-medium">🌐 1. Base da Web (HTML, CSS e JavaScript)</div>
+                    </div>
+                    <p class="mt-3">👉 Cada camada depende da de baixo e fornece poder pra de cima.</p>
+                </div>
+                <!-- Bloco 3 -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-3">🧠 3. O fluxo de desenvolvimento moderno</h4>
+                    <p class="mb-3">Pra visualizar o “encaixe” real, olha esse fluxo simplificado:</p>
+                    <ul class="list-none space-y-2">
+                        <li>👨‍💻 Desenvolvedor</li>
+                        <li class="pl-4">↓</li><li>✏️ Escreve o código em (HTML, CSS, JS)</li>
+                        <li class="pl-4">↓</li><li>⚛️ Usa frameworks (React, Vue, etc.)</li>
+                        <li class="pl-4">↓</li><li>🔌 Conecta com backend via API (Node.js / Express)</li>
+                        <li class="pl-4">↓</li><li>💾 Puxa e salva dados (Firebase / MongoDB)</li>
+                        <li class="pl-4">↓</li><li>🧠 Usa IA, análise, automações (TensorFlow.js / OpenAI)</li>
+                        <li class="pl-4">↓</li><li>🚀 Publica o site (Vercel, Netlify, AWS)</li>
+                    </ul>
+                </div>
+                <!-- Bloco 4 -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-3">🔧 4. O que faltava mesmo</h4>
+                    <p class="mb-3">As coisas que você ainda não viu (e que muita gente esquece no começo):</p>
+                    <div class="overflow-x-auto rounded-lg border dark:border-gray-700 my-4">
+                        <table class="w-full min-w-max text-left">
+                            <thead class="border-b dark:border-gray-600"><tr class="font-semibold"><th class="p-3">Categoria</th><th class="p-3">O que é</th><th class="p-3">Exemplo</th><th class="p-3">Explicação simples</th></tr></thead>
+                            <tbody>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">🧱 Build Tools</td><td class="p-3">Compacta, transpila e otimiza o código</td><td class="p-3">Vite, Webpack, Babel</td><td class="p-3">Torna o JS moderno compatível</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">📂 Gerenciadores de pacotes</td><td class="p-3">Instala bibliotecas</td><td class="p-3">npm, yarn, pnpm</td><td class="p-3">Igual o pip install do Python</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">🧰 Linter / Formatter</td><td class="p-3">Corrige código automaticamente</td><td class="p-3">ESLint, Prettier</td><td class="p-3">Mantém padrão e evita bugs</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">🔄 Controle de versão</td><td class="p-3">Guarda histórico do código</td><td class="p-3">Git + GitHub</td><td class="p-3">Permite voltar versões e colaborar</td></tr>
+                                <!-- Alteração Crítica 3 -->
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">🧭 Framework Fullstack</td><td class="p-3">Junta tudo (frontend+backend+rotas)</td><td class="p-3">Next.js, Nuxt.js, Remix</td><td class="p-3">Tudo num único projeto (ex: Next.js/React, Nuxt.js/Vue)</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">🧠 APIs de IA / Web ML</td><td class="p-3">Usa modelos de IA direto no site</td><td class="p-3">OpenAI API, TensorFlow.js</td><td class="p-3">Faz IA no navegador ou via API</td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">☁️ Deploy e Hosting</td><td class="p-3">Coloca o site online</td><td class="p-3">Vercel, Netlify, Render</td><td class="p-3">Publica o site pro mundo</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Bloco 5 -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-3">🌍 5. O encaixe visual (resumo final)</h4>
+                    <div class="max-w-xs mx-auto space-y-2">
+                        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-center font-medium">[ Usuário ]</div><div class="text-center text-xl font-light text-gray-400">↓</div>
+                        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-center font-medium">[ HTML + CSS + JS ]</div><div class="text-center text-xl font-light text-gray-400">↓</div>
+                        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-center font-medium">[ React / Vue / Three.js ]</div><div class="text-center text-xl font-light text-gray-400">↓</div>
+                        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-center font-medium">[ Node.js + Express (Backend) ]</div><div class="text-center text-xl font-light text-gray-400">↓</div>
+                        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-center font-medium">[ MongoDB / Firebase (Banco de Dados) ]</div><div class="text-center text-xl font-light text-gray-400">↓</div>
+                        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-center font-medium">[ APIs / GraphQL ]</div><div class="text-center text-xl font-light text-gray-400">↓</div>
+                        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-center font-medium">[ TensorFlow.js / OpenAI / IA ]</div><div class="text-center text-xl font-light text-gray-400">↓</div>
+                        <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-md text-center font-medium">[ Vercel / AWS (Deploy) ]</div>
+                    </div>
+                </div>
+                <!-- Bloco 6 -->
+                <div>
+                    <blockquote class="border-l-4 border-yellow-400 dark:border-yellow-300 p-4 bg-yellow-50 dark:bg-gray-800 rounded-r-lg">
+                        <h5 class="text-lg font-semibold mb-2 text-yellow-800 dark:text-yellow-200">💡 Resumo de ouro:</h5>
+                        <ul class="list-none space-y-1 text-yellow-700 dark:text-yellow-100">
+                            <li><strong>HTML</strong> é o corpo,</li><li><strong>CSS</strong> é a roupa,</li><li><strong>JS</strong> é o cérebro,</li>
+                            <li><strong>React</strong> é o sistema nervoso,</li><li><strong>Node</strong> é o coração que bombeia dados,</li>
+                            <li><strong>Banco de dados</strong> é a memória,</li><li>e a <strong>IA</strong> é o instinto que aprende sozinho. 🤖</li>
+                        </ul>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo: Cardápio de Ferramentas -->
+        <div id="content-cardapio">
+            <h3 class="text-2xl font-bold mb-4 text-purple-600 dark:text-purple-400">🧭 O Cardápio Completo: "Quero fazer X, uso Y"</h3>
+            <div class="card-content text-gray-700 dark:text-gray-300 space-y-8">
+                <!-- Bloco 1 -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-3">🧱 1. Estrutura de sites e sistemas</h4>
+                    <div class="overflow-x-auto rounded-lg border dark:border-gray-700 my-4">
+                        <table class="w-full min-w-max text-left">
+                            <thead class="border-b dark:border-gray-600"><tr class="font-semibold"><th class="p-3">Objetivo</th><th class="p-3">O que usar</th><th class="p-3">Explicação simples</th><th class="p-3">📈 Nível</th></tr></thead>
+                            <tbody>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Criar páginas, textos e botões</td><td class="p-3 font-medium">HTML</td><td class="p-3">É o corpo e esqueleto de tudo</td><td class="p-3"><span class="text-green-600 font-medium">🟢 Básico</span></td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Deixar bonito, com cor e movimento</td><td class="p-3 font-medium">CSS / Tailwind CSS / Bootstrap</td><td class="p-3">Controla a aparência e o design</td><td class="p-3"><span class="text-green-600 font-medium">🟢 Básico</span></td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Fazer funcionar, reagir a cliques</td><td class="p-3 font-medium">JavaScript (puro)</td><td class="p-3">É a lógica que dá vida à página</td><td class="p-3"><span class="text-green-600 font-medium">🟢 Básico</span></td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Criar componentes e interfaces modernas</td><td class="p-3 font-medium">React / Vue / Svelte</td><td class="p-3">Cria sistemas mais organizados e reativos</td><td class="p-3"><span class="text-yellow-600 font-medium">🟡 Inter.</span></td></tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Criar apps completos com front + back</td><td class="p-3 font-medium">Next.js / Nuxt.js / Remix</td><td class="p-3">Junta tudo num único projeto</td><td class="p-3"><span class="text-yellow-600 font-medium">🟡 Inter.</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Bloco 2 -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-3">🎨 2. Criação e Visualização 3D</h4>
+                    <div class="overflow-x-auto rounded-lg border dark:border-gray-700 my-4">
+                        <table class="w-full min-w-max text-left">
+                            <thead class="border-b dark:border-gray-600"><tr class="font-semibold"><th class="p-3">Objetivo</th><th class="p-3">O que usar</th><th class="p-3">Explicação</th><th class="p-3">📈 Nível</th></tr></thead>
+                            <tbody>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Criar formas e cenas 3D direto no navegador</td><td class="p-3 font-medium">Three.js</td><td class="p-3">Biblioteca 3D mais usada na web</td><td class="p-3"><span class="text-yellow-600 font-medium">🟡 Inter.</span></td></tr>
+                                <!-- Alteração Crítica 3 -->
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Criar interfaces 3D com React</td><td class="p-3 font-medium">React Three Fiber</td><td class="p-3">Abstração declarativa do Three.js para React</td><td class="p-3"><span class="text-red-600 font-medium">🔴 Avan.</span></td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Criar experiências 3D/VR/AR imersivas</td><td class="p-3 font-medium">Babylon.js / A-Frame</td><td class="p-3">Ideal pra realidade aumentada e games 3D</td><td class="p-3"><span class="text-red-600 font-medium">🔴 Avan.</span></td></tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Modelar e animar objetos 3D</td><td class="p-3 font-medium">Blender (programa externo)</td><td class="p-3">Cria modelos que você pode importar em .glb ou .gltf</td><td class="p-3"><span class="text-yellow-600 font-medium">🟡 Inter.</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <blockquote class="border-l-4 border-gray-400 dark:border-gray-500 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-r-lg mt-3">👉 <strong>Resumo:</strong> Se você quer “fazer uma peça 3D” → Blender pra modelar + Three.js pra exibir + GLTFLoader pra importar.</blockquote>
+                </div>
+                <!-- Bloco 3 -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-3">🧠 3. Inteligência Artificial e Automação</h4>
+                    <div class="overflow-x-auto rounded-lg border dark:border-gray-700 my-4">
+                        <table class="w-full min-w-max text-left">
+                            <thead class="border-b dark:border-gray-600"><tr class="font-semibold"><th class="p-3">Objetivo</th><th class="p-3">O que usar</th><th class="p-3">Explicação</th><th class="p-3">📈 Nível</th></tr></thead>
+                            <tbody>
+                                <!-- Alteração Crítica 3 -->
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Fazer IA no navegador (sem servidor)</td><td class="p-3 font-medium">TensorFlow.js</td><td class="p-3">Roda modelos de IA (inferência e treino leve) direto no cliente</td><td class="p-3"><span class="text-red-600 font-medium">🔴 Avan.</span></td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Usar IA pronta (ChatGPT, DALL·E, etc.)</td><td class="p-3 font-medium">OpenAI API</td><td class="p-3">Usa modelos treinados via requisições</td><td class="p-3"><span class="text-yellow-600 font-medium">🟡 Inter.</span></td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Criar chatbots inteligentes</td><td class="p-3 font-medium">LangChain.js + OpenAI API</td><td class="p-3">Framework pra IA conversacional</td><td class="p-3"><span class="text-red-600 font-medium">🔴 Avan.</span></td></tr>
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Analisar imagens e sons</td><td class="p-3 font-medium">TensorFlow.js + WebAudio / MediaPipe</td><td class="p-3">Faz IA multimídia no navegador</td><td class="p-3"><span class="text-red-600 font-medium">🔴 Avan.</span></td></tr>
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Fazer automação ou scripts web</td><td class="p-3 font-medium">Puppeteer / Playwright</td><td class="p-3">Controla o navegador via código JS</td><td class="p-3"><span class="text-yellow-600 font-medium">🟡 Inter.</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <blockquote class="border-l-4 border-gray-400 dark:border-gray-500 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-r-lg mt-3">👉 <strong>Resumo:</strong> Quer IA? Use OpenAI API pra resultados prontos, ou TensorFlow.js se quiser rodar IA direto no navegador.</blockquote>
+                </div>
+                <!-- ... (Restante dos blocos do cardápio)... -->
+            </div>
+        </div>
+
+        <!-- Conteúdo: Comparativo -->
+        <div id="content-comparativo">
+            <h3 class="text-2xl font-bold mb-4 text-teal-600 dark:text-teal-400">💪 Até onde você pode ir</h3>
+            <div class="overflow-x-auto rounded-lg border dark:border-gray-700 my-4">
+                <table class="w-full min-w-max text-left">
+                    <thead class="border-b dark:border-gray-600"><tr><th class="p-3 font-semibold">Meta</th><th class="p-3 font-semibold text-center">HTML</th><th class="p-3 font-semibold text-center">CSS</th><th class="p-3 font-semibold text-center">JS</th></tr></thead>
+                    <tbody>
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Estrutura básica de site</td><td class="p-3 text-center text-2xl">✅</td><td class="p-3 text-center text-2xl">✅</td><td class="p-3 text-center text-2xl">✅</td></tr>
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Animações visuais</td><td class="p-3 text-center text-2xl">❌</td><td class="p-3 text-center text-2xl">✅</td><td class="p-3 text-center text-2xl">✅</td></tr>
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Interatividade (cliques, jogos)</td><td class="p-3 text-center text-2xl">❌</td><td class="p-3 text-center text-2xl">⚠️<span class="text-sm">(limitado)</span></td><td class="p-3 text-center text-2xl">✅</td></tr>
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Acesso à Internet (APIs)</td><td class="p-3 text-center text-2xl">❌</td><td class="p-3 text-center text-2xl">❌</td><td class="p-3 text-center text-2xl">✅</td></tr>
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Criação de IA simples</td><td class="p-3 text-center text-2xl">❌</td><td class="p-3 text-center text-2xl">❌</td><td class="p-3 text-center text-2xl">✅</td></tr>
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Criação de IA avançada</td><td class="p-3 text-center text-2xl">❌</td><td class="p-3 text-center text-2xl">❌</td><td class="p-3 text-center text-2xl">⚠️<span class="text-sm">(com APIs)</span></td></tr>
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Aplicativos Web completos</td><td class="p-3 text-center text-2xl">❌</td><td class="p-3 text-center text-2xl">⚠️</td><td class="p-3 text-center text-2xl">✅</td></tr>
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"><td class="p-3">Aplicativos Mobile (híbridos)</td><td class="p-3 text-center text-2xl">❌</td><td class="p-3 text-center text-2xl">❌</td><td class="p-3 text-center text-2xl">✅<span class="text-sm">(React Native)</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Conteúdo: Resumo -->
+        <div id="content-resumo">
+            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-700 dark:to-indigo-800 text-white rounded-lg p-8">
+                <h3 class="text-3xl font-bold mb-6">🚀 Resumindo</h3>
+                <div class="grid md:grid-cols-2 gap-6 text-lg">
+                    <ul class="space-y-3">
+                        <li><strong class="text-yellow-300">HTML</strong> → o esqueleto</li>
+                        <li><strong class="text-yellow-300">CSS</strong> → o visual</li>
+                    </ul>
+                    <ul class="space-y-3">
+                        <li><strong class="text-yellow-300">JavaScript</strong> → o cérebro</li>
+                        <li><strong class="text-yellow-300">API</strong> → a ponte para o mundo</li>
+                    </ul>
+                </div>
+                <p class="mt-6 text-lg">
+                    Com os três, você constrói a interface. Para IA complexa ou processamento pesado, você os combina com um back-end (Node.js, Python) e APIs.
+                </p>
+            </div>
+        </div>
+
+        <!-- Conteúdo: Caminho de Aprendizado -->
+        <div id="content-caminho">
+            <h3 class="text-2xl font-bold mb-4 text-orange-600 dark:text-orange-400">🚀 Caminho de Aprendizado</h3>
+            <p class="text-gray-700 dark:text-gray-300 mb-6">Um roadmap sugerido para conectar os conceitos e evoluir de forma natural.</p>
+            <div class="space-y-4">
+                <div class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border dark:border-gray-700">
+                    <h4 class="font-bold text-lg text-green-600">🟢 Fase 1: O Iniciante (A Base)</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Foco em construir páginas estáticas e entender a web.</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-gray-700 dark:text-gray-200">
+                        <li>HTML (Estrutura)</li><li>CSS & Tailwind (Estilo)</li><li>JavaScript (Interatividade básica)</li><li>Git & GitHub (Versionamento)</li><li>Vercel / Netlify (Deploy)</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border dark:border-gray-700">
+                    <h4 class="font-bold text-lg text-yellow-600">🟡 Fase 2: O Intermediário (O App)</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Foco em criar aplicações dinâmicas e completas.</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-gray-700 dark:text-gray-200">
+                        <li>React ou Vue (Componentes)</li><li>Node.js & Express (Backend)</li><li>MongoDB / Firebase (Banco de Dados)</li><li>REST APIs (Comunicação)</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border dark:border-gray-700">
+                    <h4 class="font-bold text-lg text-red-600">🔴 Fase 3: O Avançado (A Especialização)</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Foco em áreas de nicho e otimização.</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-gray-700 dark:text-gray-200">
+                        <li>Three.js / R3F (Gráficos 3D)</li><li>OpenAI API / TensorFlow.js (Inteligência Artificial)</li><li>Next.js / Nuxt.js (Fullstack)</li><li>DevOps (CI/CD, GitHub Actions)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo: Links Úteis -->
+        <div id="content-links">
+            <h3 class="text-2xl font-bold mb-4 text-sky-600 dark:text-sky-400">🔗 Links úteis</h3>
+            <p class="text-gray-700 dark:text-gray-300 mb-4">Referências para continuar seus estudos e consultar documentações.</p>
+            <ul class="list-disc pl-6 space-y-2 text-gray-700 dark:text-gray-300">
+                <li><a href="https://developer.mozilla.org/pt-BR/" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">MDN Web Docs</a> — A "Bíblia" da web.</li>
+                <li><a href="https://tailwindcss.com/docs" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Tailwind CSS Docs</a> — Utilitários e design responsivo.</li>
+                <li><a href="https://react.dev/" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">React Docs</a> — A biblioteca de UI mais popular.</li>
+                <li><a href="https://threejs.org/docs/" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Three.js Docs</a> — Biblioteca 3D.</li>
+                <li><a href="https://nodejs.org/en/docs" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Node.js Docs</a> — Backend moderno.</li>
+                <li><a href="https://openai.com/api/" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">OpenAI API</a> — IA na web.</li>
+                <li><a href="https://vercel.com/docs" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Vercel Docs</a> — Deploy fácil.</li>
+            </ul>
+        </div>
+        
+    </div> <!-- Fim do #hidden-content -->
+
+
+    <!-- Rodapé -->
+    <footer class="text-center p-6 text-gray-500 dark:text-gray-400 text-sm mt-12">
+        <p>&copy; 2025 - Guia Web Definitivo. Organizado com HTML, CSS (Tailwind) e JS.</p>
+    </footer>
+
+    <!-- Script JavaScript para Dark Mode e Modal -->
+    <script>
+        // 3️⃣ Ativa os ícones do Lucide
+        lucide.createIcons();
+
+        // --- LÓGICA DO DARK MODE ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('theme-icon-sun');
+        const moonIcon = document.getElementById('theme-icon-moon');
+        const htmlEl = document.documentElement;
+        let isDarkMode = localStorage.getItem('theme') === 'dark';
+
+        function updateIcon(isDarkMode) {
+            if (isDarkMode) {
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            } else {
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
+        }
+
+        if (isDarkMode) htmlEl.classList.add('dark');
+        updateIcon(isDarkMode);
+
+        themeToggle.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            htmlEl.classList.toggle('dark');
+            updateIcon(isDarkMode);
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        });
+
+        // --- LÓGICA DO MODAL (NOVA) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const modalContainer = document.getElementById('modal-container');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContentArea = document.getElementById('modal-content-area');
+            const modalCloseButton = document.getElementById('modal-close-button');
+            const cardButtons = document.querySelectorAll('.card-button');
+
+            function openModal(targetId) {
+                // 1. Encontrar o conteúdo
+                const contentSource = document.getElementById(targetId);
+                if (!contentSource) {
+                    console.error('Fonte de conteúdo não encontrada:', targetId);
+                    return;
+                }
+                
+                // 2. Clonar o conteúdo para não mover o original
+                const contentClone = contentSource.cloneNode(true);
+                
+                // 3. Extrair o título do clone e removê-lo para não duplicar
+                const titleElement = contentClone.querySelector('h3');
+                let titleText = "Detalhes";
+                if (titleElement) {
+                    titleText = titleElement.innerHTML; // Pega o HTML do título (com ícone)
+                    titleElement.remove(); // Remove o h3 do conteúdo que será injetado
+                }
+
+                // 4. Injetar o título e o conteúdo no modal
+                modalTitle.innerHTML = titleText;
+                modalContentArea.innerHTML = contentClone.innerHTML;
+                
+                // 5. Ativar ícones do Lucide que possam estar no conteúdo clonado
+                lucide.createIcons();
+
+                // 6. Mostrar o modal
+                modalContainer.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden'); // Trava o scroll da página
+                
+                // 7. Adicionar atributos de acessibilidade (Crítica 1)
+                modalContainer.setAttribute('aria-modal', 'true');
+                modalContainer.setAttribute('role', 'dialog');
+            }
+
+            function closeModal() {
+                modalContainer.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden'); // Libera o scroll
+                // Limpar conteúdo
+                modalTitle.innerHTML = "";
+                modalContentArea.innerHTML = "";
+                
+                // Remover atributos de acessibilidade (Crítica 1)
+                modalContainer.removeAttribute('aria-modal');
+                modalContainer.removeAttribute('role');
+                
+                // Remover foco do botão (Crítica 4)
+                modalCloseButton.blur();
+            }
+
+            // Adicionar listeners aos cards
+            cardButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target-id');
+                    openModal(targetId);
+                });
+            });
+
+            // Adicionar listeners para fechar
+            modalCloseButton.addEventListener('click', closeModal);
+            
+            // Fechar ao clicar fora do card (no container)
+            modalContainer.addEventListener('click', (e) => {
+                if (e.target === modalContainer) {
+                    closeModal();
+                }
+            });
+            
+            // Fechar com a tecla 'Escape'
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modalContainer.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
+
