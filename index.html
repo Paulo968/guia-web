@@ -172,11 +172,16 @@
     <!--
       MODAL: Estrutura da Janela Flutuante
       Fica escondido ('hidden') por padrão e é exibido via JS.
+      
+      *** MUDANÇA: Removido 'flex items-center justify-center p-4' do container ***
     -->
-    <div id="modal-container" class="hidden fixed inset-0 bg-gray-900/80 backdrop-blur-sm z-40 flex items-center justify-center p-4">
+    <div id="modal-container" class="hidden fixed inset-0 bg-gray-900/80 backdrop-blur-sm z-40">
         
-        <!-- O Card do Modal -->
-        <div id="modal-content" class="relative bg-white dark:bg-gray-800 w-full max-w-4xl max-h-[90vh] rounded-lg shadow-lg flex flex-col animate-fadeIn">
+        <!-- 
+          O Card do Modal 
+          *** MUDANÇA: Removido 'max-w-4xl max-h-[90vh] rounded-lg shadow-lg' e adicionado 'h-full' ***
+        -->
+        <div id="modal-content" class="relative bg-white dark:bg-gray-800 w-full h-full flex flex-col animate-fadeIn">
             
             <!-- Header do Modal (Título e Botão de Fechar) -->
             <div class="flex justify-between items-center p-4 border-b dark:border-gray-700">
@@ -612,4 +617,3 @@
     </script>
 </body>
 </html>
-
