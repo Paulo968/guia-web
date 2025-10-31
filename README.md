@@ -59,7 +59,7 @@ Feito com **HTML puro**, **Tailwind CSS** e **JavaScript Vanilla**, ele foi pens
 
 ## 🖼️ Preview
 
-Em breve: [**Acesse o site publicado**](https://Paulo968.github.io/guia-web)
+[**Acesse o site publicado**](https://paulo968.github.io/guia-web/)
 
 *(após ativar o GitHub Pages nas configurações do repositório)*
 
