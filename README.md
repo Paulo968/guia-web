@@ -17,17 +17,33 @@ O **Guia Web Definitivo** é uma biblioteca educacional interativa para quem est
 
 A proposta é reduzir a distância entre ler uma definição e entender como aquilo aparece em um projeto real.
 
+## Navegação por telas
+
+O guia funciona como uma aplicação com abas reais. Cada endereço exibe apenas o conteúdo daquele assunto:
+
+| Tela | Endereço |
+|---|---|
+| Início | `#/inicio` |
+| Biblioteca | `#/biblioteca` |
+| Trilhas | `#/trilhas` |
+| Laboratório | `#/laboratorio` |
+| Tecnologia | `#/tecnologia/html`, `#/tecnologia/react`, etc. |
+
+No celular, a navegação fica em uma barra inferior. No computador, as mesmas opções aparecem no cabeçalho. A troca de tela não exige percorrer uma página longa.
+
 ## Principais recursos
 
 - Biblioteca com pesquisa por nome, objetivo ou problema;
 - filtros por categoria e nível;
 - 16 tecnologias explicadas individualmente;
+- tela própria e endereço compartilhável para cada tecnologia;
 - exemplos de código acompanhados de resultado visual;
 - laboratório editável de HTML, CSS e JavaScript;
 - trilhas para primeiro site, sistema moderno e automação com IA;
 - progresso de estudo salvo no navegador;
 - tema claro e escuro;
 - layout responsivo para desktop, tablet e celular;
+- proteção contra rolagem horizontal e scroll fantasma;
 - PWA com cache offline do conteúdo principal;
 - navegação por teclado e cuidados de acessibilidade.
 
@@ -49,6 +65,7 @@ O laboratório executa HTML, CSS e JavaScript em um `iframe` isolado. O usuário
 
 ```text
 guia-web/
+├── .github/workflows/validate.yml
 ├── assets/
 │   └── favicon.svg
 ├── 404.html
@@ -57,7 +74,9 @@ guia-web/
 ├── index.html
 ├── manifest.webmanifest
 ├── service-worker.js
-└── styles.css
+├── styles.css
+├── styles-pages.css
+└── styles-responsive.css
 ```
 
 ## Executando localmente

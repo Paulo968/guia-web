@@ -1,8 +1,10 @@
-const CACHE_NAME = 'guia-web-v2-1';
+const CACHE_NAME = 'guia-web-v2-2';
 const APP_SHELL = [
   './',
   './index.html',
   './styles.css',
+  './styles-pages.css',
+  './styles-responsive.css',
   './app.js',
   './data.js',
   './manifest.webmanifest',
@@ -15,9 +17,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
-  );
+  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))));
   self.clients.claim();
 });
 

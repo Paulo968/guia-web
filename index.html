@@ -10,209 +10,142 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles-pages.css" />
+  <link rel="stylesheet" href="styles-responsive.css" />
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <a class="skip-link" href="#appMain">Pular para o conteúdo</a>
 
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="#inicio" aria-label="Guia Web Definitivo — início">
+      <a class="brand route-link" href="#/inicio" data-route-link="inicio" aria-label="Guia Web Definitivo — início">
         <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
-        <span>
-          <strong>Guia Web</strong>
-          <small>aprenda vendo</small>
-        </span>
+        <span><strong>Guia Web</strong><small>aprenda vendo</small></span>
       </a>
 
       <nav class="desktop-nav" aria-label="Navegação principal">
-        <a href="#biblioteca">Biblioteca</a>
-        <a href="#trilhas">Trilhas</a>
-        <a href="#laboratorio">Laboratório</a>
+        <a class="route-link" href="#/inicio" data-route-link="inicio">Início</a>
+        <a class="route-link" href="#/biblioteca" data-route-link="biblioteca">Biblioteca</a>
+        <a class="route-link" href="#/trilhas" data-route-link="trilhas">Trilhas</a>
+        <a class="route-link" href="#/laboratorio" data-route-link="laboratorio">Laboratório</a>
       </nav>
 
       <div class="header-actions">
-        <button class="icon-button" id="themeButton" type="button" aria-label="Alternar tema" title="Alternar tema">
-          <span id="themeIcon" aria-hidden="true">☾</span>
-        </button>
+        <button class="icon-button" id="themeButton" type="button" aria-label="Alternar tema" title="Alternar tema"><span id="themeIcon" aria-hidden="true">☾</span></button>
         <a class="github-button" href="https://github.com/Paulo968/guia-web" target="_blank" rel="noreferrer">GitHub</a>
       </div>
     </div>
   </header>
 
-  <main id="conteudo">
-    <section class="hero" id="inicio">
-      <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
-      <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
-      <div class="hero-content">
-        <p class="eyebrow"><span></span> Feito para quem está começando</p>
-        <h1>Entenda a tecnologia.<br /><em>Veja o código funcionando.</em></h1>
-        <p class="hero-description">
-          Descubra o que HTML, CSS, JavaScript, React, APIs, bancos de dados e outras ferramentas fazem — em português simples, com analogias, exemplos e resultado visual.
-        </p>
-        <div class="hero-actions">
-          <a class="primary-button" href="#biblioteca">Explorar tecnologias <span aria-hidden="true">→</span></a>
-          <a class="secondary-button" href="#laboratorio">Abrir laboratório</a>
-        </div>
-        <div class="hero-stats" aria-label="Resumo do guia">
-          <div><strong id="technologyCount">16</strong><span>tecnologias</span></div>
-          <div><strong>3</strong><span>trilhas guiadas</span></div>
-          <div><strong>1</strong><span>laboratório ao vivo</span></div>
-        </div>
-      </div>
+  <main id="appMain" tabindex="-1">
+    <section class="app-view home-view" data-view="inicio" aria-labelledby="homeTitle">
+      <div class="hero-shell">
+        <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+        <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
 
-      <div class="hero-demo" aria-label="Demonstração de código">
-        <div class="demo-window">
-          <div class="window-bar">
-            <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-            <span>meu-primeiro-card.html</span>
+        <div class="hero-content">
+          <p class="eyebrow"><span></span> Feito para quem está começando</p>
+          <h1 id="homeTitle">Entenda a tecnologia.<br /><em>Veja o código funcionando.</em></h1>
+          <p class="hero-description">Descubra o que HTML, CSS, JavaScript, React, APIs, bancos de dados e outras ferramentas fazem — em português simples, com analogias, exemplos e resultado visual.</p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#/biblioteca">Explorar tecnologias <span aria-hidden="true">→</span></a>
+            <a class="secondary-button" href="#/laboratorio">Abrir laboratório</a>
           </div>
-          <pre><code><span class="token-tag">&lt;article</span> <span class="token-attr">class</span>=<span class="token-string">"card"</span><span class="token-tag">&gt;</span>
+          <div class="hero-stats" aria-label="Resumo do guia">
+            <div><strong id="technologyCount">16</strong><span>tecnologias</span></div>
+            <div><strong>3</strong><span>trilhas guiadas</span></div>
+            <div><strong>1</strong><span>laboratório ao vivo</span></div>
+          </div>
+        </div>
+
+        <div class="hero-demo" aria-label="Demonstração de código e resultado">
+          <div class="demo-window">
+            <div class="window-bar"><div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div><span>meu-primeiro-card.html</span></div>
+            <pre><code><span class="token-tag">&lt;article</span> <span class="token-attr">class</span>=<span class="token-string">"card"</span><span class="token-tag">&gt;</span>
   <span class="token-tag">&lt;h2&gt;</span>Olá, mundo!<span class="token-tag">&lt;/h2&gt;</span>
   <span class="token-tag">&lt;p&gt;</span>Meu primeiro projeto.<span class="token-tag">&lt;/p&gt;</span>
   <span class="token-tag">&lt;button&gt;</span>Começar<span class="token-tag">&lt;/button&gt;</span>
 <span class="token-tag">&lt;/article&gt;</span></code></pre>
+          </div>
+          <div class="demo-result">
+            <span class="result-label">Resultado</span>
+            <div class="sample-card"><div class="sample-icon">🚀</div><h2>Olá, mundo!</h2><p>Meu primeiro projeto.</p><button type="button">Começar</button></div>
+          </div>
         </div>
-        <div class="demo-result">
-          <span class="result-label">Resultado</span>
-          <div class="sample-card">
-            <div class="sample-icon">🚀</div>
-            <h2>Olá, mundo!</h2>
-            <p>Meu primeiro projeto.</p>
-            <button type="button">Começar</button>
+      </div>
+
+      <div class="home-options" aria-label="Áreas do guia">
+        <a class="home-option" href="#/biblioteca"><span class="home-option-icon">▦</span><div><strong>Biblioteca</strong><p>Entenda cada tecnologia separadamente.</p></div><span aria-hidden="true">→</span></a>
+        <a class="home-option" href="#/trilhas"><span class="home-option-icon">↗</span><div><strong>Trilhas</strong><p>Aprenda na ordem certa, sem confusão.</p></div><span aria-hidden="true">→</span></a>
+        <a class="home-option" href="#/laboratorio"><span class="home-option-icon">&lt;/&gt;</span><div><strong>Laboratório</strong><p>Edite o código e veja o resultado.</p></div><span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="app-view page-view" data-view="biblioteca" hidden aria-labelledby="libraryTitle">
+      <div class="page-shell">
+        <div class="page-heading split-heading">
+          <div><p class="eyebrow"><span></span> Biblioteca interativa</p><h1 id="libraryTitle">O que você quer entender hoje?</h1><p>Pesquise pelo nome da tecnologia ou pelo que deseja construir.</p></div>
+          <div class="progress-card" id="progressCard" aria-live="polite"><span class="progress-icon">✓</span><div><strong><span id="studiedCount">0</span> estudadas</strong><small>Progresso salvo neste aparelho</small></div></div>
+        </div>
+
+        <div class="search-panel">
+          <label class="search-box" for="technologySearch"><span aria-hidden="true">⌕</span><input id="technologySearch" type="search" placeholder="Ex.: criar interface, banco de dados, automação..." autocomplete="off" /><kbd>/</kbd></label>
+          <div class="filters" id="categoryFilters" aria-label="Filtrar por categoria"></div>
+          <select id="levelFilter" class="level-filter" aria-label="Filtrar por nível"><option value="all">Todos os níveis</option><option value="Básico">Básico</option><option value="Intermediário">Intermediário</option><option value="Avançado">Avançado</option></select>
+        </div>
+
+        <div class="results-meta"><span id="resultsCount"></span><button id="clearFilters" type="button">Limpar filtros</button></div>
+        <div class="technology-grid" id="technologyGrid" aria-live="polite"></div>
+        <div class="empty-state hidden" id="emptyState"><span>🔎</span><h2>Nenhuma tecnologia encontrada</h2><p>Tente outra palavra ou limpe os filtros.</p></div>
+      </div>
+    </section>
+
+    <section class="app-view page-view" data-view="trilhas" hidden aria-labelledby="pathsTitle">
+      <div class="page-shell">
+        <div class="page-heading centered-heading"><p class="eyebrow"><span></span> Caminhos sem confusão</p><h1 id="pathsTitle">Escolha uma trilha de aprendizado</h1><p>Uma ordem prática para sair da ideia e chegar a um projeto publicado.</p></div>
+        <div class="paths-grid" id="pathsGrid"></div>
+      </div>
+    </section>
+
+    <section class="app-view page-view lab-page" data-view="laboratorio" hidden aria-labelledby="labTitle">
+      <div class="page-shell">
+        <div class="page-heading lab-intro"><p class="eyebrow"><span></span> Laboratório interativo</p><h1 id="labTitle">Mude o código e veja na hora</h1><p>Experimente HTML, CSS e JavaScript sem instalar nada. O resultado roda em uma área isolada para não interferir no guia.</p><div class="lab-features"><span>✓ Resultado ao vivo</span><span>✓ Exemplos prontos</span><span>✓ Seguro e isolado</span></div></div>
+
+        <div class="lab-shell">
+          <div class="lab-toolbar">
+            <div class="lab-tabs" role="tablist" aria-label="Editores de código"><button class="lab-tab active" data-editor="html" role="tab" aria-selected="true">HTML</button><button class="lab-tab" data-editor="css" role="tab" aria-selected="false">CSS</button><button class="lab-tab" data-editor="js" role="tab" aria-selected="false">JavaScript</button></div>
+            <div class="lab-actions"><label for="labExample">Exemplo:</label><select id="labExample"></select><button id="resetLab" type="button">Restaurar</button><button id="runLab" class="run-button" type="button">Executar ▶</button></div>
+          </div>
+          <div class="lab-workspace">
+            <div class="editor-pane"><div class="editor-header"><span id="editorFileName">index.html</span><span class="editor-status">editável</span></div><textarea id="htmlEditor" class="code-editor active" spellcheck="false" aria-label="Código HTML"></textarea><textarea id="cssEditor" class="code-editor" spellcheck="false" aria-label="Código CSS"></textarea><textarea id="jsEditor" class="code-editor" spellcheck="false" aria-label="Código JavaScript"></textarea></div>
+            <div class="preview-pane"><div class="preview-header"><span>Resultado</span><span id="previewStatus">pronto</span></div><iframe id="labPreview" title="Resultado do laboratório" sandbox="allow-scripts"></iframe></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section library-section" id="biblioteca">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow"><span></span> Biblioteca interativa</p>
-          <h2>O que você quer entender hoje?</h2>
-          <p>Pesquise pelo nome ou pelo que deseja construir.</p>
-        </div>
-        <div class="progress-card" id="progressCard" aria-live="polite">
-          <span class="progress-icon">✓</span>
-          <div><strong><span id="studiedCount">0</span> estudadas</strong><small>Seu progresso fica salvo neste aparelho</small></div>
-        </div>
+    <section class="app-view page-view technology-page" data-view="tecnologia" hidden aria-labelledby="technologyPageTitle">
+      <div class="page-shell technology-shell">
+        <div class="technology-toolbar"><a class="back-button" href="#/biblioteca" id="technologyBack"><span aria-hidden="true">←</span> Voltar para a biblioteca</a><button class="studied-button" id="studiedButton" type="button"></button></div>
+        <div class="technology-heading" id="technologyHeading"></div>
+        <div class="technology-content" id="technologyContent"></div>
       </div>
-
-      <div class="search-panel">
-        <label class="search-box" for="technologySearch">
-          <span aria-hidden="true">⌕</span>
-          <input id="technologySearch" type="search" placeholder="Ex.: criar interface, banco de dados, automação..." autocomplete="off" />
-          <kbd>/</kbd>
-        </label>
-        <div class="filters" id="categoryFilters" aria-label="Filtrar por categoria"></div>
-        <select id="levelFilter" class="level-filter" aria-label="Filtrar por nível">
-          <option value="all">Todos os níveis</option>
-          <option value="Básico">Básico</option>
-          <option value="Intermediário">Intermediário</option>
-          <option value="Avançado">Avançado</option>
-        </select>
-      </div>
-
-      <div class="results-meta"><span id="resultsCount"></span><button id="clearFilters" type="button">Limpar filtros</button></div>
-      <div class="technology-grid" id="technologyGrid" aria-live="polite"></div>
-      <div class="empty-state hidden" id="emptyState">
-        <span>🔎</span>
-        <h3>Nenhuma tecnologia encontrada</h3>
-        <p>Tente outra palavra ou limpe os filtros.</p>
-      </div>
-    </section>
-
-    <section class="section paths-section" id="trilhas">
-      <div class="section-heading centered">
-        <p class="eyebrow"><span></span> Caminhos sem confusão</p>
-        <h2>Escolha uma trilha de aprendizado</h2>
-        <p>Uma ordem prática para sair da ideia e chegar a um projeto publicado.</p>
-      </div>
-      <div class="paths-grid" id="pathsGrid"></div>
-    </section>
-
-    <section class="section lab-section" id="laboratorio">
-      <div class="lab-intro">
-        <p class="eyebrow"><span></span> Laboratório interativo</p>
-        <h2>Mude o código e veja na hora</h2>
-        <p>Experimente HTML, CSS e JavaScript sem instalar nada. O resultado roda em uma área isolada para não interferir no guia.</p>
-        <div class="lab-features">
-          <span>✓ Resultado ao vivo</span>
-          <span>✓ Exemplos prontos</span>
-          <span>✓ Seguro e isolado</span>
-        </div>
-      </div>
-
-      <div class="lab-shell">
-        <div class="lab-toolbar">
-          <div class="lab-tabs" role="tablist" aria-label="Editores de código">
-            <button class="lab-tab active" data-editor="html" role="tab" aria-selected="true">HTML</button>
-            <button class="lab-tab" data-editor="css" role="tab" aria-selected="false">CSS</button>
-            <button class="lab-tab" data-editor="js" role="tab" aria-selected="false">JavaScript</button>
-          </div>
-          <div class="lab-actions">
-            <label for="labExample">Exemplo:</label>
-            <select id="labExample"></select>
-            <button id="resetLab" type="button">Restaurar</button>
-            <button id="runLab" class="run-button" type="button">Executar ▶</button>
-          </div>
-        </div>
-
-        <div class="lab-workspace">
-          <div class="editor-pane">
-            <div class="editor-header"><span id="editorFileName">index.html</span><span class="editor-status">editável</span></div>
-            <textarea id="htmlEditor" class="code-editor active" spellcheck="false" aria-label="Código HTML"></textarea>
-            <textarea id="cssEditor" class="code-editor" spellcheck="false" aria-label="Código CSS"></textarea>
-            <textarea id="jsEditor" class="code-editor" spellcheck="false" aria-label="Código JavaScript"></textarea>
-          </div>
-          <div class="preview-pane">
-            <div class="preview-header"><span>Resultado</span><span id="previewStatus">pronto</span></div>
-            <iframe id="labPreview" title="Resultado do laboratório" sandbox="allow-scripts"></iframe>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta-section">
-      <div>
-        <p class="eyebrow"><span></span> Aprender é construir</p>
-        <h2>Não precisa decorar tudo.<br />Precisa entender como as peças se conectam.</h2>
-      </div>
-      <a href="#biblioteca" class="primary-button">Continuar explorando <span aria-hidden="true">↑</span></a>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div>
-      <a class="brand footer-brand" href="#inicio"><span class="brand-mark">&lt;/&gt;</span><span><strong>Guia Web</strong><small>por Paulo Zaqueu</small></span></a>
-      <p>Um projeto educacional para tornar desenvolvimento web mais simples, visual e acessível.</p>
-    </div>
-    <div class="footer-links">
-      <a href="https://portfolio-paulo-ashy.vercel.app/" target="_blank" rel="noreferrer">Portfólio</a>
-      <a href="https://github.com/Paulo968" target="_blank" rel="noreferrer">GitHub</a>
-      <a href="https://www.linkedin.com/in/paulo-zaqueu-762459187" target="_blank" rel="noreferrer">LinkedIn</a>
-    </div>
+    <div><a class="brand footer-brand" href="#/inicio"><span class="brand-mark">&lt;/&gt;</span><span><strong>Guia Web</strong><small>por Paulo Zaqueu</small></span></a><p>Um projeto educacional para tornar desenvolvimento web mais simples, visual e acessível.</p></div>
+    <div class="footer-links"><a href="https://portfolio-paulo-ashy.vercel.app/" target="_blank" rel="noreferrer">Portfólio</a><a href="https://github.com/Paulo968" target="_blank" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/paulo-zaqueu-762459187" target="_blank" rel="noreferrer">LinkedIn</a></div>
   </footer>
 
   <nav class="mobile-nav" aria-label="Navegação mobile">
-    <a href="#inicio"><span>⌂</span>Início</a>
-    <a href="#biblioteca"><span>▦</span>Biblioteca</a>
-    <a href="#trilhas"><span>↗</span>Trilhas</a>
-    <a href="#laboratorio"><span>&lt;/&gt;</span>Laboratório</a>
+    <a href="#/inicio" data-route-link="inicio"><span>⌂</span>Início</a>
+    <a href="#/biblioteca" data-route-link="biblioteca"><span>▦</span>Biblioteca</a>
+    <a href="#/trilhas" data-route-link="trilhas"><span>↗</span>Trilhas</a>
+    <a href="#/laboratorio" data-route-link="laboratorio"><span>&lt;/&gt;</span>Laboratório</a>
   </nav>
 
-  <div class="drawer-backdrop hidden" id="drawerBackdrop"></div>
-  <aside class="technology-drawer" id="technologyDrawer" aria-hidden="true" aria-labelledby="drawerTitle">
-    <div class="drawer-handle" aria-hidden="true"></div>
-    <div class="drawer-header">
-      <button class="drawer-close" id="drawerClose" type="button" aria-label="Fechar detalhes">×</button>
-      <div class="drawer-heading" id="drawerHeading"></div>
-      <button class="studied-button" id="studiedButton" type="button"></button>
-    </div>
-    <div class="drawer-content" id="drawerContent"></div>
-  </aside>
-
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
   <script type="module" src="app.js"></script>
 </body>
 </html>

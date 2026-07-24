@@ -26,11 +26,24 @@ jobs:
         run: |
           test -f index.html
           test -f styles.css
+          test -f styles-pages.css
+          test -f styles-responsive.css
           test -f app.js
           test -f data.js
           test -f manifest.webmanifest
           test -f service-worker.js
           test -f assets/favicon.svg
+
+      - name: Validate tab routes and overflow safeguards
+        run: |
+          grep -q 'data-view="inicio"' index.html
+          grep -q 'data-view="biblioteca"' index.html
+          grep -q 'data-view="trilhas"' index.html
+          grep -q 'data-view="laboratorio"' index.html
+          grep -q 'data-view="tecnologia"' index.html
+          grep -q "#/tecnologia/" app.js
+          grep -q "overflow-x: clip" styles.css
+          ! grep -R "100vw" styles.css styles-pages.css styles-responsive.css
 
       - name: Validate educational catalog
         run: |
@@ -58,4 +71,4 @@ jobs:
 
       - name: Prevent unpinned external UI dependencies
         run: |
-          ! grep -R "cdn.tailwindcss.com\|unpkg.com/lucide@latest" index.html app.js data.js styles.css
+          ! grep -R "cdn.tailwindcss.com\|unpkg.com/lucide@latest" index.html app.js data.js styles.css styles-pages.css styles-responsive.css
