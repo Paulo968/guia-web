@@ -1,93 +1,61 @@
-# 🌐 Guia Web Definitivo
+# Guia Web Definitivo
 
-O guia completo e interativo para dominar **HTML, CSS e JavaScript**, entenda como tudo se conecta na web moderna e evolui no caminho do desenvolvimento web.
+Guia visual e interativo para entender como **HTML, CSS e JavaScript** trabalham juntos no desenvolvimento web moderno.
 
----
+## Acesse
 
-## 🚀 Sobre o Projeto
+[Abra o Guia Web no GitHub Pages](https://paulo968.github.io/guia-web/)
 
-O **Guia Web Definitivo** é um material visual e interativo que explica o funcionamento das principais tecnologias da web — **HTML**, **CSS** e **JavaScript** — e como elas se encaixam com frameworks, bancos de dados, APIs, ferramentas de build, IA e deploy.
+## Sobre o projeto
 
-Feito com **HTML puro**, **Tailwind CSS** e **JavaScript Vanilla**, ele foi pensado para ser **leve, responsivo e didático**.
+O projeto foi criado como material de estudo e consulta. Ele apresenta os fundamentos da web e conecta esses conceitos a temas como frontend, backend, APIs, bancos de dados, ferramentas de build, inteligência artificial e publicação de aplicações.
 
----
+A aplicação foi construída com tecnologias simples para manter o conteúdo leve, acessível e fácil de executar.
 
-## 🧱 Estrutura do Projeto
+## Funcionalidades
 
+- Cards interativos com conteúdo em modais;
+- explicações técnicas acompanhadas de analogias;
+- temas claro e escuro com persistência local;
+- animações e layout responsivo;
+- roadmap de aprendizado em desenvolvimento web;
+- conteúdo executado diretamente no navegador.
 
-📂 guia-web/
-├── index.html      # Arquivo principal (portal interativo)
-├── /assets         # (opcional) pasta para imagens ou futuros scripts
-├── README.md       # Este arquivo
-🎯 Funcionalidades
-✅ Cards interativos com modais de conteúdo
-✅ Modo claro/escuro (Dark Mode persistente)
-✅ Animações suaves e responsivas
-✅ Estrutura organizada e extensível
-✅ Totalmente feito em HTML + Tailwind + JS
-✅ Explicações técnicas + analogias simples
+## Tecnologias
 
-🧠 O que você aprende com ele
-O papel de cada linguagem da trindade web
+- HTML5;
+- JavaScript;
+- Tailwind CSS via CDN;
+- Lucide Icons;
+- Google Fonts.
 
-O fluxo entre Frontend, Backend e Banco de Dados
+## Estrutura
 
-Como escolher a ferramenta certa para cada necessidade
+```text
+guia-web/
+├── assets/
+├── index.html
+└── README.md
+```
 
-O que usar para criar projetos 3D, IA, automação e deploys modernos
+## Executando localmente
 
-Um roadmap completo para evoluir como desenvolvedor
-
-🛠️ Tecnologias utilizadas
-Categoria	Ferramentas
-Estrutura	HTML5
-Estilo	Tailwind CSS
-Interatividade	JavaScript
-Ícones	Lucide Icons
-Fonte	Inter (Google Fonts)
-
-🖼️ Prévia
-🔗 Acesse o site publicado:
-https://Paulo968.github.io/guia-web
-
-(Após ativar o GitHub Pages nas configurações do repositório)
-
-📦 Como rodar localmente
-Se quiser abrir o guia direto no seu PC:
-
-# 1. Clone o repositório
+```bash
 git clone https://github.com/Paulo968/guia-web.git
-
-# 2. Entre na pasta
 cd guia-web
+```
 
-# 3. Abra o arquivo no navegador
-# Basta arrastar o index.html para a janela do navegador
-🌍 Publicação (GitHub Pages)
-Vá em Configurações → Páginas
+Depois, abra o arquivo `index.html` no navegador.
 
-Em Fonte, selecione:
+## Conteúdo abordado
 
-Implantar a partir de uma ramificação
+- Função de HTML, CSS e JavaScript;
+- relação entre frontend, backend e banco de dados;
+- APIs e comunicação entre sistemas;
+- frameworks e ferramentas modernas;
+- automação, inteligência artificial e deploy;
+- caminhos de estudo para evolução na área.
 
-Ramificação: main
+## Autor
 
-Pasta: / (raiz)
-
-Clique em Salvar
-
-Acesse o link:
-👉 https://Paulo968.github.io/guia-web
-
-💡 Créditos e Inspiração
-Criado por Paulo Zaqueu
-
-Organizado com 💙, Tailwind CSS e muita curiosidade sobre o universo web. 🌍
-
-"HTML é o corpo, CSS é a roupa, e o JavaScript é o cérebro.
-Juntos, eles constroem a alma da Internet." 💙
-
-🪄 Licença
-Este projeto é de uso livre para fins educacionais.
-Sinta-se à vontade para estudar, remixar e evoluir.
-Se publicar, mencione o autor como referência. 🙌
+Criado por [Paulo Zaqueu](https://github.com/Paulo968) como parte de sua jornada de transição da operação logística para tecnologia e desenvolvimento de sistemas.
