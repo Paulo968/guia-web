@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="styles-pages.css" />
   <link rel="stylesheet" href="styles-responsive.css" />
+  <link rel="stylesheet" href="styles-lab.css" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">Pular para o conteúdo</a>
@@ -109,16 +110,32 @@
 
     <section class="app-view page-view lab-page" data-view="laboratorio" hidden aria-labelledby="labTitle">
       <div class="page-shell">
-        <div class="page-heading lab-intro"><p class="eyebrow"><span></span> Laboratório interativo</p><h1 id="labTitle">Mude o código e veja na hora</h1><p>Experimente HTML, CSS e JavaScript sem instalar nada. O resultado roda em uma área isolada para não interferir no guia.</p><div class="lab-features"><span>✓ Resultado ao vivo</span><span>✓ Exemplos prontos</span><span>✓ Seguro e isolado</span></div></div>
+        <div class="page-heading lab-intro">
+          <p class="eyebrow"><span></span> Laboratório interativo</p>
+          <h1 id="labTitle">Mude o código e veja na hora</h1>
+          <p>Digite nos editores de HTML, CSS ou JavaScript. Após uma breve pausa, o resultado é atualizado automaticamente na tela ao lado — ou logo abaixo no celular.</p>
+          <div class="lab-features"><span>✓ Atualização automática</span><span>✓ Exemplos prontos</span><span>✓ Seguro e isolado</span></div>
+          <div class="lab-how-it-works" aria-label="Como usar o laboratório">
+            <article class="lab-step"><span>1</span><div><strong>Escolha o que alterar</strong><p>HTML cria o conteúdo, CSS muda o visual e JavaScript adiciona comportamento.</p></div></article>
+            <article class="lab-step"><span>2</span><div><strong>Digite no editor</strong><p>Faça uma pequena mudança, como trocar um texto, uma cor ou o nome de um botão.</p></div></article>
+            <article class="lab-step"><span>3</span><div><strong>Veja o resultado</strong><p>A prévia é reconstruída automaticamente. O botão serve para atualizar imediatamente.</p></div></article>
+          </div>
+        </div>
 
         <div class="lab-shell">
           <div class="lab-toolbar">
             <div class="lab-tabs" role="tablist" aria-label="Editores de código"><button class="lab-tab active" data-editor="html" role="tab" aria-selected="true">HTML</button><button class="lab-tab" data-editor="css" role="tab" aria-selected="false">CSS</button><button class="lab-tab" data-editor="js" role="tab" aria-selected="false">JavaScript</button></div>
-            <div class="lab-actions"><label for="labExample">Exemplo:</label><select id="labExample"></select><button id="resetLab" type="button">Restaurar</button><button id="runLab" class="run-button" type="button">Executar ▶</button></div>
+            <div class="lab-actions"><label for="labExample">Exemplo:</label><select id="labExample"></select><button id="resetLab" type="button">Restaurar</button><button id="runLab" class="run-button" type="button">Atualizar agora ▶</button><button id="viewResult" type="button">Ver resultado ↓</button></div>
           </div>
           <div class="lab-workspace">
-            <div class="editor-pane"><div class="editor-header"><span id="editorFileName">index.html</span><span class="editor-status">editável</span></div><textarea id="htmlEditor" class="code-editor active" spellcheck="false" aria-label="Código HTML"></textarea><textarea id="cssEditor" class="code-editor" spellcheck="false" aria-label="Código CSS"></textarea><textarea id="jsEditor" class="code-editor" spellcheck="false" aria-label="Código JavaScript"></textarea></div>
-            <div class="preview-pane"><div class="preview-header"><span>Resultado</span><span id="previewStatus">pronto</span></div><iframe id="labPreview" title="Resultado do laboratório" sandbox="allow-scripts"></iframe></div>
+            <div class="editor-pane">
+              <div class="editor-header"><span id="editorFileName">index.html</span><span class="editor-status">ao vivo</span></div>
+              <p class="editor-help" id="editorHelp">HTML cria e organiza o conteúdo: títulos, textos, botões, imagens e formulários.</p>
+              <textarea id="htmlEditor" class="code-editor active" spellcheck="false" aria-label="Código HTML"></textarea>
+              <textarea id="cssEditor" class="code-editor" spellcheck="false" aria-label="Código CSS"></textarea>
+              <textarea id="jsEditor" class="code-editor" spellcheck="false" aria-label="Código JavaScript"></textarea>
+            </div>
+            <div class="preview-pane"><div class="preview-header"><span>Resultado ao vivo</span><span id="previewStatus">pronto</span></div><iframe id="labPreview" title="Resultado do laboratório" sandbox="allow-scripts"></iframe></div>
           </div>
         </div>
       </div>
@@ -147,5 +164,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script type="module" src="app.js"></script>
+  <script type="module" src="lab-live.js"></script>
 </body>
 </html>
