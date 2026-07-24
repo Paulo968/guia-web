@@ -19,6 +19,7 @@ jobs:
       - name: Validate JavaScript syntax
         run: |
           node --check app.js
+          node --check lab-live.js
           node --check data.js
           node --check service-worker.js
 
@@ -28,7 +29,9 @@ jobs:
           test -f styles.css
           test -f styles-pages.css
           test -f styles-responsive.css
+          test -f styles-lab.css
           test -f app.js
+          test -f lab-live.js
           test -f data.js
           test -f manifest.webmanifest
           test -f service-worker.js
@@ -43,7 +46,16 @@ jobs:
           grep -q 'data-view="tecnologia"' index.html
           grep -q "#/tecnologia/" app.js
           grep -q "overflow-x: clip" styles.css
-          ! grep -R "100vw" styles.css styles-pages.css styles-responsive.css
+          ! grep -R "100vw" styles.css styles-pages.css styles-responsive.css styles-lab.css
+
+      - name: Validate live laboratory
+        run: |
+          grep -q 'src="lab-live.js"' index.html
+          grep -q 'id="editorHelp"' index.html
+          grep -q 'id="viewResult"' index.html
+          grep -q "editor.addEventListener('input', scheduleUpdate)" lab-live.js
+          grep -q "runButton.click()" lab-live.js
+          grep -q "guia-web-v2-3" service-worker.js
 
       - name: Validate educational catalog
         run: |
@@ -71,4 +83,4 @@ jobs:
 
       - name: Prevent unpinned external UI dependencies
         run: |
-          ! grep -R "cdn.tailwindcss.com\|unpkg.com/lucide@latest" index.html app.js data.js styles.css styles-pages.css styles-responsive.css
+          ! grep -R "cdn.tailwindcss.com\|unpkg.com/lucide@latest" index.html app.js lab-live.js data.js styles.css styles-pages.css styles-responsive.css styles-lab.css

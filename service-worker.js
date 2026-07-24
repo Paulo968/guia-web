@@ -1,11 +1,13 @@
-const CACHE_NAME = 'guia-web-v2-2';
+const CACHE_NAME = 'guia-web-v2-3';
 const APP_SHELL = [
   './',
   './index.html',
   './styles.css',
   './styles-pages.css',
   './styles-responsive.css',
+  './styles-lab.css',
   './app.js',
+  './lab-live.js',
   './data.js',
   './manifest.webmanifest',
   './assets/favicon.svg'
