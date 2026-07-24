@@ -1,0 +1,61 @@
+name: Validate Guia Web
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate JavaScript syntax
+        run: |
+          node --check app.js
+          node --check data.js
+          node --check service-worker.js
+
+      - name: Validate project structure
+        run: |
+          test -f index.html
+          test -f styles.css
+          test -f app.js
+          test -f data.js
+          test -f manifest.webmanifest
+          test -f service-worker.js
+          test -f assets/favicon.svg
+
+      - name: Validate educational catalog
+        run: |
+          node --input-type=module <<'NODE'
+          import { technologies, learningPaths, labExamples } from './data.js';
+          if (technologies.length !== 16) throw new Error(`Expected 16 technologies, found ${technologies.length}`);
+          const ids = new Set(technologies.map((item) => item.id));
+          if (ids.size !== technologies.length) throw new Error('Duplicate technology ids');
+          for (const item of technologies) {
+            for (const field of ['name', 'summary', 'definition', 'analogy', 'example']) {
+              if (!item[field]) throw new Error(`${item.id} is missing ${field}`);
+            }
+            for (const related of item.related) {
+              if (!ids.has(related)) throw new Error(`${item.id} references missing related technology ${related}`);
+            }
+          }
+          for (const path of learningPaths) {
+            for (const step of path.steps) {
+              if (!ids.has(step)) throw new Error(`${path.id} references missing step ${step}`);
+            }
+          }
+          if (Object.keys(labExamples).length < 3) throw new Error('Expected at least three lab examples');
+          console.log(`Validated ${technologies.length} technologies, ${learningPaths.length} paths and ${Object.keys(labExamples).length} lab examples.`);
+          NODE
+
+      - name: Prevent unpinned external UI dependencies
+        run: |
+          ! grep -R "cdn.tailwindcss.com\|unpkg.com/lucide@latest" index.html app.js data.js styles.css
