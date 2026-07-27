@@ -18,69 +18,183 @@ jobs:
 
       - name: Validate JavaScript syntax
         run: |
-          node --check app.js
-          node --check lab-live.js
-          node --check data.js
-          node --check service-worker.js
+          for file in app.js bootstrap.js data.js data-patch.js lab-live.js service-worker.js; do
+            node --experimental-default-type=module --check "$file"
+          done
 
       - name: Validate project structure
         run: |
-          test -f index.html
-          test -f styles.css
-          test -f styles-pages.css
-          test -f styles-responsive.css
-          test -f styles-lab.css
-          test -f app.js
-          test -f lab-live.js
-          test -f data.js
-          test -f manifest.webmanifest
-          test -f service-worker.js
-          test -f assets/favicon.svg
+          for file in \
+            index.html 404.html README.md manifest.webmanifest service-worker.js \
+            styles.css styles-pages.css styles-responsive.css styles-lab.css styles-architecture.css \
+            app.js bootstrap.js data.js data-patch.js lab-live.js assets/favicon.svg; do
+            test -f "$file" || { echo "Missing required file: $file"; exit 1; }
+          done
 
-      - name: Validate tab routes and overflow safeguards
+      - name: Validate HTML ids and local resources
         run: |
-          grep -q 'data-view="inicio"' index.html
-          grep -q 'data-view="biblioteca"' index.html
-          grep -q 'data-view="trilhas"' index.html
-          grep -q 'data-view="laboratorio"' index.html
-          grep -q 'data-view="tecnologia"' index.html
-          grep -q "#/tecnologia/" app.js
-          grep -q "overflow-x: clip" styles.css
-          ! grep -R "100vw" styles.css styles-pages.css styles-responsive.css styles-lab.css
+          python3 <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urlsplit
 
-      - name: Validate live laboratory
-        run: |
-          grep -q 'src="lab-live.js"' index.html
-          grep -q 'id="editorHelp"' index.html
-          grep -q 'id="viewResult"' index.html
-          grep -q "editor.addEventListener('input', scheduleUpdate)" lab-live.js
-          grep -q "runButton.click()" lab-live.js
-          grep -q "guia-web-v2-3" service-worker.js
+          class GuideParser(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.ids = []
+                  self.resources = []
+                  self.module_scripts = []
+
+              def handle_starttag(self, tag, attrs):
+                  values = dict(attrs)
+                  if values.get('id'):
+                      self.ids.append(values['id'])
+                  if tag == 'link' and values.get('href'):
+                      self.resources.append(values['href'])
+                  if tag == 'script' and values.get('src'):
+                      self.resources.append(values['src'])
+                      if values.get('type') == 'module':
+                          self.module_scripts.append(values['src'])
+
+          parser = GuideParser()
+          parser.feed(Path('index.html').read_text(encoding='utf-8'))
+
+          duplicates = sorted({item for item in parser.ids if parser.ids.count(item) > 1})
+          if duplicates:
+              raise SystemExit(f'Duplicate HTML ids: {duplicates}')
+
+          required_ids = {
+              'appMain', 'homeTitle', 'technologySearch', 'categoryFilters', 'levelFilter',
+              'technologyGrid', 'pathsGrid', 'labExample', 'htmlEditor', 'cssEditor',
+              'jsEditor', 'runLab', 'labPreview', 'technologyHeading', 'technologyContent'
+          }
+          missing_ids = sorted(required_ids - set(parser.ids))
+          if missing_ids:
+              raise SystemExit(f'Missing required HTML ids: {missing_ids}')
+
+          if parser.module_scripts != ['bootstrap.js']:
+              raise SystemExit(f'Expected only bootstrap.js as module entry point, found {parser.module_scripts}')
+
+          for resource in parser.resources:
+              parsed = urlsplit(resource)
+              if parsed.scheme or parsed.netloc or resource.startswith('#'):
+                  continue
+              path = parsed.path.removeprefix('./')
+              if path and not Path(path).is_file():
+                  raise SystemExit(f'HTML references missing local resource: {resource}')
+
+          print(f'Validated {len(parser.ids)} unique ids and {len(parser.resources)} local resource references.')
+          PY
 
       - name: Validate educational catalog
         run: |
-          node --input-type=module <<'NODE'
-          import { technologies, learningPaths, labExamples } from './data.js';
-          if (technologies.length !== 16) throw new Error(`Expected 16 technologies, found ${technologies.length}`);
+          node --experimental-default-type=module --input-type=module <<'NODE'
+          import { readFile } from 'node:fs/promises';
+
+          await import('./data-patch.js');
+          const { technologies, learningPaths, labExamples } = await import('./data.js');
+
+          if (technologies.length !== 17) {
+            throw new Error(`Expected 17 technologies after patches, found ${technologies.length}`);
+          }
+
           const ids = new Set(technologies.map((item) => item.id));
           if (ids.size !== technologies.length) throw new Error('Duplicate technology ids');
+
+          const requiredTextFields = ['id', 'name', 'category', 'level', 'summary', 'definition', 'analogy', 'searchTerms'];
+          const requiredListFields = ['useCases', 'notFor', 'prerequisites', 'related'];
+
           for (const item of technologies) {
-            for (const field of ['name', 'summary', 'definition', 'analogy', 'example']) {
-              if (!item[field]) throw new Error(`${item.id} is missing ${field}`);
+            for (const field of requiredTextFields) {
+              if (typeof item[field] !== 'string' || !item[field].trim()) {
+                throw new Error(`${item.id || 'unknown'} is missing valid ${field}`);
+              }
             }
+
+            for (const field of requiredListFields) {
+              if (!Array.isArray(item[field]) || item[field].length === 0) {
+                throw new Error(`${item.id} is missing valid ${field}`);
+              }
+            }
+
+            if (!item.example || typeof item.example !== 'object') {
+              throw new Error(`${item.id} is missing example`);
+            }
+            for (const field of ['title', 'language', 'code', 'html', 'css', 'js']) {
+              if (typeof item.example[field] !== 'string') {
+                throw new Error(`${item.id} example is missing string field ${field}`);
+              }
+            }
+
             for (const related of item.related) {
               if (!ids.has(related)) throw new Error(`${item.id} references missing related technology ${related}`);
+              if (related === item.id) throw new Error(`${item.id} references itself as related technology`);
             }
           }
+
+          const pathIds = new Set();
           for (const path of learningPaths) {
+            if (pathIds.has(path.id)) throw new Error(`Duplicate learning path id ${path.id}`);
+            pathIds.add(path.id);
+            if (!Array.isArray(path.steps) || path.steps.length === 0) throw new Error(`${path.id} has no steps`);
             for (const step of path.steps) {
               if (!ids.has(step)) throw new Error(`${path.id} references missing step ${step}`);
             }
           }
+
           if (Object.keys(labExamples).length < 3) throw new Error('Expected at least three lab examples');
+          for (const [id, example] of Object.entries(labExamples)) {
+            for (const field of ['name', 'html', 'css', 'js']) {
+              if (typeof example[field] !== 'string') throw new Error(`Lab example ${id} is missing ${field}`);
+            }
+          }
+
+          const index = await readFile('index.html', 'utf8');
+          const linkedTechnologyIds = [...index.matchAll(/#\/tecnologia\/([a-z0-9-]+)/g)].map((match) => match[1]);
+          for (const linkedId of linkedTechnologyIds) {
+            if (!ids.has(linkedId)) throw new Error(`index.html links to missing technology ${linkedId}`);
+          }
+
+          const next = technologies.find((item) => item.id === 'next');
+          if (!next.example.code.includes('await params')) throw new Error('Next.js example must await params');
+
+          const playwright = technologies.find((item) => item.id === 'playwright');
+          if (!playwright.example.code.includes("from '@playwright/test'")) {
+            throw new Error('Playwright example must import test and expect');
+          }
+
+          const ai = technologies.find((item) => item.id === 'ai-api');
+          if (!ai.example.language.toLowerCase().includes('pseudocódigo')) {
+            throw new Error('AI example must be clearly identified as pseudocode');
+          }
+
           console.log(`Validated ${technologies.length} technologies, ${learningPaths.length} paths and ${Object.keys(labExamples).length} lab examples.`);
           NODE
 
+      - name: Validate PWA cache
+        run: |
+          grep -q "guia-web-v3-0" service-worker.js
+          for file in \
+            index.html 404.html styles.css styles-pages.css styles-responsive.css \
+            styles-lab.css styles-architecture.css bootstrap.js app.js lab-live.js \
+            data.js data-patch.js manifest.webmanifest assets/favicon.svg; do
+            grep -q "'./$file'" service-worker.js || { echo "Service worker does not pre-cache $file"; exit 1; }
+          done
+          grep -q "request.mode === 'navigate'" service-worker.js
+          grep -q "return Response.error()" service-worker.js
+
+      - name: Validate local HTTP delivery
+        run: |
+          python3 -m http.server 8000 >/tmp/guia-web-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid' EXIT
+          sleep 1
+          for path in / /index.html /bootstrap.js /data-patch.js /styles-architecture.css /manifest.webmanifest /service-worker.js; do
+            curl --fail --silent --show-error "http://127.0.0.1:8000$path" >/dev/null
+          done
+
       - name: Prevent unpinned external UI dependencies
         run: |
-          ! grep -R "cdn.tailwindcss.com\|unpkg.com/lucide@latest" index.html app.js lab-live.js data.js styles.css styles-pages.css styles-responsive.css styles-lab.css
+          ! grep -R "cdn.tailwindcss.com\|unpkg.com/lucide@latest" \
+            index.html app.js bootstrap.js lab-live.js data.js data-patch.js \
+            styles.css styles-pages.css styles-responsive.css styles-lab.css styles-architecture.css
