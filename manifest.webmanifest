@@ -1,12 +1,44 @@
 {
+  "id": "./",
   "name": "Guia Web Definitivo",
   "short_name": "Guia Web",
-  "description": "Aprenda tecnologias web com exemplos de código e resultado visual.",
-  "start_url": "./",
+  "description": "Aprenda tecnologias web com explicações simples, exemplos de código e resultado visual.",
+  "lang": "pt-BR",
+  "start_url": "./#/inicio",
   "scope": "./",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#07101f",
   "theme_color": "#081126",
+  "categories": ["education", "developer tools"],
+  "shortcuts": [
+    {
+      "name": "Abrir biblioteca",
+      "short_name": "Biblioteca",
+      "description": "Pesquisar e explorar tecnologias web.",
+      "url": "./#/biblioteca",
+      "icons": [
+        {
+          "src": "assets/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Abrir laboratório",
+      "short_name": "Laboratório",
+      "description": "Editar HTML, CSS e JavaScript e ver o resultado.",
+      "url": "./#/laboratorio",
+      "icons": [
+        {
+          "src": "assets/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
   "icons": [
     {
       "src": "assets/favicon.svg",
