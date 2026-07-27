@@ -1,11 +1,39 @@
 import { categories, technologies, learningPaths, labExamples } from './data.js';
 
+const memoryStorage = new Map();
+
+function readStorage(key, fallback = null) {
+  try {
+    return localStorage.getItem(key) ?? fallback;
+  } catch {
+    return memoryStorage.has(key) ? memoryStorage.get(key) : fallback;
+  }
+}
+
+function writeStorage(key, value) {
+  memoryStorage.set(key, value);
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // O estado continua válido durante a sessão quando o navegador bloqueia o armazenamento.
+  }
+}
+
+function readStudiedTechnologies() {
+  try {
+    const parsed = JSON.parse(readStorage('guia-web-studied', '[]'));
+    return Array.isArray(parsed) ? parsed.filter((item) => typeof item === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
 const state = {
   category: 'Todos',
   level: 'all',
   query: '',
   activeTechnology: null,
-  studied: new Set(JSON.parse(localStorage.getItem('guia-web-studied') || '[]')),
+  studied: new Set(readStudiedTechnologies()),
   labExample: 'card',
   labEditor: 'html',
   route: { page: 'inicio' }
@@ -41,12 +69,16 @@ function escapeHtml(value = '') {
   return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
 }
 
+function escapeClosingTag(value = '', tag = 'script') {
+  return String(value).replace(new RegExp(`</${tag}`, 'gi'), `<\\/${tag}`);
+}
+
 function getTechnology(id) {
   return technologies.find((technology) => technology.id === id);
 }
 
 function saveStudied() {
-  localStorage.setItem('guia-web-studied', JSON.stringify([...state.studied]));
+  writeStorage('guia-web-studied', JSON.stringify([...state.studied]));
   updateProgress();
 }
 
@@ -122,7 +154,54 @@ function renderPaths() {
 }
 
 function previewDocument(example) {
-  return `<!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${example.css || ''}</style></head><body>${example.html || ''}<script>window.addEventListener('error',function(event){document.body.insertAdjacentHTML('beforeend','<pre style="margin:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;font:12px monospace;white-space:pre-wrap">Erro: '+event.message.replace(/</g,'&lt;')+'</pre>')});${example.js || ''}<\/script></body></html>`;
+  const css = escapeClosingTag(example.css || '', 'style');
+  const html = example.html || '';
+  const javascript = escapeClosingTag(example.js || '', 'script');
+
+  const errorHandler = `
+    (() => {
+      const showError = (message) => {
+        const previous = document.querySelector('[data-guia-error]');
+        if (previous) previous.remove();
+        const errorBox = document.createElement('pre');
+        errorBox.dataset.guiaError = 'true';
+        errorBox.style.cssText = 'margin:16px;padding:12px;border-radius:10px;background:#fee2e2;color:#991b1b;font:12px/1.5 monospace;white-space:pre-wrap;text-align:left';
+        errorBox.textContent = 'Erro no JavaScript: ' + message;
+        document.body.append(errorBox);
+      };
+
+      window.__guiaShowError = showError;
+      window.addEventListener('error', (event) => {
+        showError(event.message || 'erro desconhecido');
+        event.preventDefault();
+      });
+      window.addEventListener('unhandledrejection', (event) => {
+        const reason = event.reason?.message || String(event.reason || 'promessa rejeitada');
+        showError(reason);
+        event.preventDefault();
+      });
+    })();
+  `;
+
+  return `<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script>${errorHandler}<\/script>
+  <style>${css}</style>
+</head>
+<body>
+  ${html}
+  <script>
+    try {
+      ${javascript}
+    } catch (error) {
+      window.__guiaShowError(error?.message || String(error));
+    }
+  <\/script>
+</body>
+</html>`;
 }
 
 function renderTechnologyPage(technology) {
@@ -270,13 +349,13 @@ function setTheme(theme) {
   document.documentElement.classList.toggle('light', light);
   themeIcon.textContent = light ? '☀' : '☾';
   themeButton.setAttribute('aria-label', light ? 'Ativar tema escuro' : 'Ativar tema claro');
-  localStorage.setItem('guia-web-theme', theme);
+  writeStorage('guia-web-theme', theme);
 }
 
 function initTheme() {
-  const stored = localStorage.getItem('guia-web-theme');
+  const stored = readStorage('guia-web-theme');
   const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-  setTheme(stored || preferred);
+  setTheme(['light', 'dark'].includes(stored) ? stored : preferred);
 }
 
 function initLab() {
@@ -299,7 +378,8 @@ function initLab() {
   function runLab() {
     previewStatus.textContent = 'executando...';
     preview.srcdoc = previewDocument(currentLabCode());
-    window.setTimeout(() => { previewStatus.textContent = 'atualizado'; }, 180);
+    window.clearTimeout(runLab.timer);
+    runLab.timer = window.setTimeout(() => { previewStatus.textContent = 'atualizado'; }, 180);
   }
 
   function loadExample(id) {
@@ -337,6 +417,7 @@ function initLab() {
         const start = editor.selectionStart;
         const end = editor.selectionEnd;
         editor.value = `${editor.value.slice(0, start)}  ${editor.value.slice(end)}`;
+        editor.editorSelectionStart = editor.editorSelectionEnd = start + 2;
         editor.selectionStart = editor.selectionEnd = start + 2;
       }
       if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') runLab();
@@ -368,11 +449,28 @@ studiedButton.addEventListener('click', () => {
   showToast(state.studied.has(state.activeTechnology) ? 'Marcada como estudada' : 'Removida do progresso');
 });
 
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.cssText = 'position:fixed;left:-9999px;top:0';
+  document.body.append(textarea);
+  textarea.select();
+  const copied = document.execCommand('copy');
+  textarea.remove();
+  if (!copied) throw new Error('Cópia não suportada');
+}
+
 technologyContent.addEventListener('click', async (event) => {
   const copyButton = event.target.closest('[data-copy-code]');
   if (!copyButton || !state.activeTechnology) return;
   try {
-    await navigator.clipboard.writeText(getTechnology(state.activeTechnology).example.code);
+    await copyText(getTechnology(state.activeTechnology).example.code);
     showToast('Código copiado');
     copyButton.textContent = 'Copiado ✓';
     window.setTimeout(() => { copyButton.textContent = 'Copiar código'; }, 1600);
@@ -401,7 +499,11 @@ function init() {
   updateProgress();
   initLab();
   renderRoute();
-  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    navigator.serviceWorker.register('./service-worker.js').catch((error) => {
+      console.warn('Não foi possível registrar o modo offline:', error);
+    });
+  }
 }
 
 init();
