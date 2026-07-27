@@ -14,12 +14,7 @@ function repairStoredPreferences() {
       localStorage.removeItem('guia-web-theme');
     }
   } catch {
-    try {
-      localStorage.removeItem('guia-web-studied');
-      localStorage.removeItem('guia-web-theme');
-    } catch {
-      // O navegador pode bloquear o armazenamento; o guia continua funcionando sem persistência.
-    }
+    // O app.js possui um armazenamento temporário de reserva para ambientes restritos.
   }
 }
 
@@ -35,6 +30,9 @@ function enhanceAccessibilityAndUi() {
   previewStatus?.setAttribute('role', 'status');
   previewStatus?.setAttribute('aria-live', 'polite');
 
+  const featureLabels = [...document.querySelectorAll('.lab-features span')];
+  if (featureLabels[2]) featureLabels[2].textContent = '✓ Isolado da página principal';
+
   const tabs = [...document.querySelectorAll('.lab-tab')];
   const syncTabs = () => {
     tabs.forEach((tab) => {
@@ -44,7 +42,9 @@ function enhanceAccessibilityAndUi() {
 
       if (editor) {
         tab.setAttribute('aria-controls', editor.id);
+        editor.setAttribute('role', 'tabpanel');
         editor.setAttribute('aria-labelledby', tab.id);
+        editor.setAttribute('aria-hidden', String(!active));
       }
 
       tab.tabIndex = active ? 0 : -1;
