@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="styles-pages.css" />
   <link rel="stylesheet" href="styles-responsive.css" />
   <link rel="stylesheet" href="styles-lab.css" />
+  <link rel="stylesheet" href="styles-architecture.css" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">Pular para o conteúdo</a>
@@ -53,7 +54,7 @@
             <a class="secondary-button" href="#/laboratorio">Abrir laboratório</a>
           </div>
           <div class="hero-stats" aria-label="Resumo do guia">
-            <div><strong id="technologyCount">16</strong><span>tecnologias</span></div>
+            <div><strong id="technologyCount">17</strong><span>tecnologias</span></div>
             <div><strong>3</strong><span>trilhas guiadas</span></div>
             <div><strong>1</strong><span>laboratório ao vivo</span></div>
           </div>
@@ -74,6 +75,95 @@
           </div>
         </div>
       </div>
+
+      <section class="architecture-section" aria-labelledby="architectureTitle">
+        <div class="architecture-heading">
+          <div>
+            <p class="eyebrow"><span></span> Da fundação ao site no ar</p>
+            <h2 id="architectureTitle">Uma aplicação web é como uma construção</h2>
+          </div>
+          <p>As tecnologias não competem para fazer tudo. Cada uma assume uma parte da obra e trabalha junto com as demais.</p>
+        </div>
+
+        <div class="architecture-layers" aria-label="Camadas de uma aplicação web">
+          <article class="architecture-layer foundations-layer">
+            <span class="layer-number">01</span>
+            <div class="layer-copy">
+              <span class="layer-label">Fundação</span>
+              <h3>A base que o navegador entende</h3>
+              <p>HTML cria a estrutura, CSS define o acabamento e JavaScript instala comportamento e lógica.</p>
+            </div>
+            <div class="layer-technologies">
+              <a href="#/tecnologia/html"><strong>HTML</strong><small>paredes e cômodos</small></a>
+              <a href="#/tecnologia/css"><strong>CSS</strong><small>visual e acabamento</small></a>
+              <a href="#/tecnologia/javascript"><strong>JavaScript</strong><small>elétrica e mecanismos</small></a>
+            </div>
+          </article>
+
+          <div class="architecture-connector" aria-hidden="true"><span>↓</span><small>organizar e ampliar</small></div>
+
+          <article class="architecture-layer application-layer">
+            <span class="layer-number">02</span>
+            <div class="layer-copy">
+              <span class="layer-label">Aplicação</span>
+              <h3>Peças, projeto e bastidores</h3>
+              <p>React cria componentes; Next.js coordena aplicações React maiores; Node, APIs e bancos processam e guardam informações.</p>
+            </div>
+            <div class="layer-technologies">
+              <a href="#/tecnologia/react"><strong>React</strong><small>peças reutilizáveis</small></a>
+              <a href="#/tecnologia/next"><strong>Next.js</strong><small>projeto executivo</small></a>
+              <a href="#/tecnologia/node"><strong>Node.js</strong><small>sala de máquinas</small></a>
+              <a href="#/tecnologia/supabase"><strong>Supabase</strong><small>infraestrutura interna</small></a>
+            </div>
+          </article>
+
+          <div class="architecture-connector" aria-hidden="true"><span>↓</span><small>versionar, construir e publicar</small></div>
+
+          <article class="architecture-layer delivery-layer">
+            <span class="layer-number">03</span>
+            <div class="layer-copy">
+              <span class="layer-label">Produção</span>
+              <h3>Da oficina para a internet</h3>
+              <p>Vite prepara o pacote, GitHub preserva as plantas e Netlify ou Vercel colocam a versão aprovada no ar.</p>
+            </div>
+            <div class="layer-technologies">
+              <a href="#/tecnologia/vite"><strong>Vite</strong><small>oficina e empacotamento</small></a>
+              <a href="#/tecnologia/git-github"><strong>GitHub</strong><small>plantas e histórico</small></a>
+              <a href="#/tecnologia/netlify"><strong>Netlify</strong><small>publicação e endereço</small></a>
+              <a href="#/tecnologia/vercel"><strong>Vercel</strong><small>publicação e previews</small></a>
+            </div>
+          </article>
+        </div>
+
+        <details class="architecture-details">
+          <summary>
+            <span><strong>Ver a construção inteira</strong><small>Entenda o papel de cada tecnologia sem decorar siglas.</small></span>
+            <span class="summary-arrow" aria-hidden="true">↓</span>
+          </summary>
+
+          <div class="architecture-story">
+            <article><span>HTML</span><div><h3>Fundação, paredes e cômodos</h3><p>Define o que existe: títulos, textos, imagens, botões, formulários, menus e seções. Também dá significado às partes para acessibilidade e buscadores.</p></div></article>
+            <article><span>CSS</span><div><h3>Arquitetura visual e acabamento</h3><p>Controla cores, fontes, tamanhos, espaçamentos, posições, animações e adaptação para celular ou computador.</p></div></article>
+            <article><span>JS</span><div><h3>Eletricidade e mecanismos automáticos</h3><p>Percebe cliques, valida formulários, realiza cálculos, busca dados e decide o que deve mudar na tela.</p></div></article>
+            <article><span>TS</span><div><h3>Normas e etiquetas técnicas</h3><p>Adiciona tipos ao JavaScript para deixar claro qual dado entra em cada lugar e detectar erros antes de a obra chegar ao público.</p></div></article>
+            <article><span>⚛</span><div><h3>Peças pré-fabricadas</h3><p>Permite criar Botão, Card, Menu e outras peças uma vez, reutilizando-as em várias telas e atualizando somente o necessário.</p></div></article>
+            <article><span>N</span><div><h3>Projeto executivo e engenheiro-chefe</h3><p>Trabalha sobre React e organiza rotas, páginas, servidor, cache e renderização. Coordena uma aplicação maior, mas não substitui banco, regras e hospedagem.</p></div></article>
+            <article><span>V</span><div><h3>Oficina e máquinas da obra</h3><p>Executa o projeto rapidamente durante o desenvolvimento e empacota os arquivos em uma versão otimizada para publicação.</p></div></article>
+            <article><span>NODE</span><div><h3>Sala de máquinas</h3><p>Executa JavaScript fora do navegador para processar pedidos, criar servidores, APIs, automações e tarefas internas.</p></div></article>
+            <article><span>API</span><div><h3>Recepção e comunicação</h3><p>Recebe uma solicitação da interface, encaminha ao setor responsável e devolve uma resposta padronizada.</p></div></article>
+            <article><span>SQL</span><div><h3>Arquivo central</h3><p>Guarda clientes, produtos, pedidos e pagamentos em tabelas relacionadas, com regras para manter os registros consistentes.</p></div></article>
+            <article><span>S</span><div><h3>Infraestrutura interna pronta</h3><p>Reúne PostgreSQL, autenticação, arquivos, APIs e tempo real. A estrutura vem pronta, mas as regras de acesso ainda precisam ser bem definidas.</p></div></article>
+            <article><span>GIT</span><div><h3>Plantas, diário e histórico</h3><p>Git registra as mudanças; GitHub guarda o repositório, organiza branches, revisões e colaboração. É onde a evolução do projeto fica documentada.</p></div></article>
+            <article><span>PW</span><div><h3>Inspetor da obra</h3><p>Abre o sistema como um usuário, clica, preenche campos e verifica se os caminhos continuam funcionando após cada alteração.</p></div></article>
+            <article><span>DEPLOY</span><div><h3>Equipe de publicação e endereço público</h3><p>Netlify e Vercel recebem o projeto, executam o build, distribuem os arquivos em servidores e mantêm a aplicação disponível no mesmo endereço.</p></div></article>
+          </div>
+
+          <div class="architecture-conclusion">
+            <strong>O navegador continua recebendo HTML, CSS e JavaScript.</strong>
+            <p>React, Next.js, Vite, TypeScript e outras ferramentas existem para construir, organizar, testar e publicar essa base com mais segurança e velocidade.</p>
+          </div>
+        </details>
+      </section>
 
       <div class="home-options" aria-label="Áreas do guia">
         <a class="home-option" href="#/biblioteca"><span class="home-option-icon">▦</span><div><strong>Biblioteca</strong><p>Entenda cada tecnologia separadamente.</p></div><span aria-hidden="true">→</span></a>
@@ -163,7 +253,6 @@
   </nav>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js"></script>
-  <script type="module" src="lab-live.js"></script>
+  <script type="module" src="bootstrap.js"></script>
 </body>
 </html>
