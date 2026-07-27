@@ -171,9 +171,21 @@ jobs:
           console.log(`Validated ${technologies.length} technologies, ${learningPaths.length} paths and ${Object.keys(labExamples).length} lab examples.`);
           NODE
 
+      - name: Validate laboratory safeguards
+        run: |
+          grep -q "function readStudiedTechnologies" app.js
+          grep -q "function escapeClosingTag" app.js
+          grep -q "unhandledrejection" app.js
+          grep -q "Erro no JavaScript" app.js
+          grep -q "document.execCommand('copy')" app.js
+          grep -q "Isolado da página principal" bootstrap.js
+          grep -q "role', 'tabpanel'" bootstrap.js
+          grep -q "editor.addEventListener('input', scheduleUpdate)" lab-live.js
+          grep -q "runButton.click()" lab-live.js
+
       - name: Validate PWA cache
         run: |
-          grep -q "guia-web-v3-0" service-worker.js
+          grep -q "guia-web-v3-1" service-worker.js
           for file in \
             index.html 404.html styles.css styles-pages.css styles-responsive.css \
             styles-lab.css styles-architecture.css bootstrap.js app.js lab-live.js \
@@ -183,13 +195,30 @@ jobs:
           grep -q "request.mode === 'navigate'" service-worker.js
           grep -q "return Response.error()" service-worker.js
 
+      - name: Validate manifest
+        run: |
+          python3 <<'PY'
+          import json
+          from pathlib import Path
+
+          manifest = json.loads(Path('manifest.webmanifest').read_text(encoding='utf-8'))
+          for field in ['id', 'name', 'short_name', 'description', 'lang', 'start_url', 'scope', 'display', 'icons']:
+              if not manifest.get(field):
+                  raise SystemExit(f'Manifest is missing {field}')
+          if manifest['lang'] != 'pt-BR':
+              raise SystemExit('Manifest language must be pt-BR')
+          if len(manifest.get('shortcuts', [])) < 2:
+              raise SystemExit('Manifest must expose at least two shortcuts')
+          print('Manifest JSON validated.')
+          PY
+
       - name: Validate local HTTP delivery
         run: |
           python3 -m http.server 8000 >/tmp/guia-web-server.log 2>&1 &
           server_pid=$!
           trap 'kill $server_pid' EXIT
           sleep 1
-          for path in / /index.html /bootstrap.js /data-patch.js /styles-architecture.css /manifest.webmanifest /service-worker.js; do
+          for path in / /index.html /bootstrap.js /app.js /data-patch.js /styles-architecture.css /manifest.webmanifest /service-worker.js; do
             curl --fail --silent --show-error "http://127.0.0.1:8000$path" >/dev/null
           done
 
